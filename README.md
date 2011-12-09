@@ -2,7 +2,26 @@
 
 As iOS/Mac has more and more great libraries like ASIHTTPRequest, RestKit and etc. There's no good package management tool for it. Cundle is inspired by the simple but useful vim bundler `vundle` and aims to provide a tool with minimized functions to manage these packages.
 
+The command line is written in bash. No need for compile.
+
 ## Usage
+
+	$ cundle
+
+	Cundle - the Obj-C Library Manager
+	
+	Usage:
+	    cundle help                    Show this message
+	    cundle remove <lib>            Remove a <lib>
+	    cundle ls                      List installed libs
+	    cundle install                 Download and install all libs defined in ./Cundlefile
+	    cundle install <lib>           Download and install a <lib>
+	    cundle update                  Use the latest code for libs defined in ./Cundlefile
+	    cundle update <lib>            Use the latest code for <lib> from git
+	
+	Example:
+	    cundle install RestKit/RestKit Install latest version of RestKit
+	    cundle remove RestKit/RestKit  Remove RestKit under SharedLib
 
 Run the following command under your project root. This will add ASIHttpRequest to SharedLib/asi-http-request. And by default, this command will also fetch all submodules or cundles defined inside the cundle.
 
@@ -49,5 +68,18 @@ Add this line to ~/.bashrc or ~/.zshrc (if you use oh-my-zsh like me) file to ha
 
 ## Limitations & Future plan
 
-* Only support repositories on github.com now. Will support any git repo.
-* Not able to use a certain commit, tag or branch but just the latest source
+* Only support repositories on github.com now. Will support any git repository.
+* Not able to use a certain commit, tag or branch. It just pulls the latest source.
+* `cundle` is still at its alpha stage, but I'll make it better as I can. [Shoot me an email](mailto:jyo.rakuraku@gmail.com) if you have any question.
+
+## License
+
+(The MIT License)
+
+Copyright (c) 2011 Rakuraku Jyo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
