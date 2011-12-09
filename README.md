@@ -1,6 +1,6 @@
 ## Cundle
 
-As iOS/Mac has more and more great libraries like ASIHTTPRequest, RestKit and etc. There's no good package management tool for it. Cundle aims to fill the empty by providing a tool with minimized functions to manage these packages.
+As iOS/Mac has more and more great libraries like ASIHTTPRequest, RestKit and etc. There's no good package management tool for it. Cundle is inspired by the simple but useful vim bundler `vundle` and aims to provide a tool with minimized functions to manage these packages.
 
 ## Usage
 
@@ -10,7 +10,7 @@ Run the following command under your project root. This will add ASIHttpRequest 
 
 To list all install cundles
 	
-	$ cundle list
+	$ cundle ls
 	/Users/jyo/testproject/SharedLib
 	├ pokeb/asi-http-request
 	├ RestKit/RestKit
@@ -35,6 +35,8 @@ If you have a `Cundlefile` at the project root. Use `cundle` to install all cund
 	Done. All cundles installed.
 
 ## Install
+
+Download and install cundle
 	
 	$ git clone git://github.com/rjyo/cundle.git ~/.cundle
 
