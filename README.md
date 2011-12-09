@@ -11,10 +11,9 @@ Run the following command under your project root. This will add ASIHttpRequest 
 To list all install cundles
 	
 	$ cundle ls
-	/Users/jyo/testproject/SharedLib
-	├ pokeb/asi-http-request
-	├ RestKit/RestKit
-	└ enormego/EGOImageLoading
+	Installed libs under /Users/jyo/Examples/SharedLib:
+	✓ enormego/EGOImageLoading
+	✓ pokeb/asi-http-request
 
 To remove a installed bundle. And you need to remove that dependency from you Xcode project manually.
 
@@ -27,12 +26,12 @@ If you have a `Cundlefile` at the project root. Use `cundle` to install all cund
 	cundle "RestKit/RestKit"
 	cundle "enormego/EGOImageLoading"
 	
-	$ cundle
-	Installing "pokeb/asi-http-request" to ./SharedLib/asi-http-request ...
-	Installing "RestKit/RestKit" to ./SharedLib/RestKit ...
-	Installing "enormego/EGOImageLoading" to ./SharedLib/EGOImageLoading ...
-	
-	Done. All cundles installed.
+	$ cundle install
+	Cloning into '/Users/jyo/Examples/SharedLib/asi-http-request'...
+	Cloning into '/Users/jyo/Examples/SharedLib/EGOImageLoading'...
+	Submodule 'EGOCache' (git://github.com/enormego/EGOCache.git) registered for path 'EGOCache'
+	Cloning into 'EGOCache'...
+	Submodule path 'EGOCache': checked out '8b7c7ecfc8fad396b6547ad3fef085713644f794'
 
 Use `cundle update` to update your all your cundles or `cundle update RestKit/RestKit` for just RestKit.
 
