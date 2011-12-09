@@ -47,3 +47,8 @@ To activate cundle, you need to source it from your bash shell
 	$ . ~/.cundle/cundle.sh
 
 Add this line to ~/.bashrc or ~/.zshrc (if you use oh-my-zsh like me) file to have it automatically sources upon login.
+
+## Limitations & Future plan
+
+* Only support repositories on github.com now. Will support any git repo.
+* Not able to use a certain commit, tag or branch but just the latest source
