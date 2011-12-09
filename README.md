@@ -12,12 +12,12 @@ The command line is written in bash. No need for compile.
 	
 	Usage:
 	    cundle help                    Show this message
-	    cundle remove <lib>            Remove a <lib>
-	    cundle ls                      List installed libs
 	    cundle install                 Download and install all libs defined in ./Cundlefile
 	    cundle install <lib>           Download and install a <lib>
 	    cundle update                  Use the latest code for libs defined in ./Cundlefile
 	    cundle update <lib>            Use the latest code for <lib> from git
+	    cundle ls                      List installed libs
+	    cundle remove <lib>            Remove a <lib>
 	
 	Example:
 	    cundle install RestKit/RestKit Install latest version of RestKit
