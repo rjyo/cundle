@@ -85,10 +85,10 @@ install_path() {
 # Update an install cundle
 update() {
   OPWD=`pwd`
-  for A in `ls $LIBDIR`
+  for ALIB in `ls $LIBDIR`
   do
-    if [ -d "$OPWD/$LIBDIR/$A/.git" ]; then
-      cd "$OPWD/$LIBDIR/$A"
+    if [ -d "$OPWD/$LIBDIR/$ALIB/.git" ]; then
+      cd "$OPWD/$LIBDIR/$ALIB"
 
       # Get the lib name
       lib=`git config -l | grep origin.url`
@@ -141,7 +141,7 @@ cundle()
       echo "    cundle ls                      List installed libs"
       echo "    cundle install                 Download and install all libs defined in ./Cundlefile"
       echo "    cundle install <lib>           Download and install a <lib>"
-      echo "    cundle update                  Use the latest code for all libs defined in ./Cundlefile"
+      echo "    cundle update                  Use the latest code for ALIBll libs defined in ./Cundlefile"
       echo "    cundle update <lib>            Use the latest code for <lib> from git"
       echo
       echo "Example:"
@@ -171,15 +171,15 @@ cundle()
       [ $# -ne 2 ] && cundle help && return
 
       OPWD=`pwd`
-      for A in `ls $LIBDIR`
+      for ALIB in `ls $LIBDIR`
       do
-        if [ -d "$OPWD/$LIBDIR/$A/.git" ]; then
-          cd "$OPWD/$LIBDIR/$A"
+        if [ -d "$OPWD/$LIBDIR/$ALIB/.git" ]; then
+          cd "$OPWD/$LIBDIR/$ALIB"
 
           # Get the lib name
           lib=`git config -l | grep origin.url`
           if [[ $lib =~ $2 ]]; then
-            rm -rf "$OPWD/$LIBDIR/$A" 2> /dev/null
+            rm -rf "$OPWD/$LIBDIR/$ALIB" 2> /dev/null
             echo "Removed $2"
           fi
 
@@ -191,11 +191,11 @@ cundle()
       [ $# -ne 1 ] && cundle help && return
 
       OPWD=`pwd`
-      echo "Installed libs:"
-      for A in `ls $LIBDIR`
+      echo "Installed libs under $LIBDIR:"
+      for ALIB in `ls $LIBDIR`
       do
-        if [ -d "$OPWD/$LIBDIR/$A/.git" ]; then
-          cd "$OPWD/$LIBDIR/$A"
+        if [ -d "$OPWD/$LIBDIR/$ALIB/.git" ]; then
+          cd "$OPWD/$LIBDIR/$ALIB"
           # Get the lib name
           lib=`git config -l | grep origin.url |sed -e 's/.*github.com\/\(.*\).git/\1/g'`
           if [ $lib ]; then echo "✓ $lib"; fi
