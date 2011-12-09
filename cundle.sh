@@ -6,9 +6,9 @@
 #
 
 # Auto detect the CUNDLE_DIR
-if [ ! -d "$CUNDLE_DIR" ]; then
-    export CUNDLE_DIR=$(cd $(dirname ${BASH_SOURCE[0]:-$0}); pwd)
-fi
+# if [ ! -d "$CUNDLE_DIR" ]; then
+#     export CUNDLE_DIR=$(cd "$(dirname ${BASH_SOURCE[0]:-$0})"; pwd)
+# fi
 
 # Check url
 if [ ! `which curl` ]; then
@@ -22,7 +22,7 @@ if [ ! `which git` ]; then
   git() { echo 'Need git to proceed.' >&2; }
 fi
 
-LIBDIR='SharedLib'
+local LIB_DIR_NAME='SharedLib'
 
 # Install a lib at current path
 install() {
@@ -34,27 +34,24 @@ install() {
   [ "$NOCURL" ] && curl && return
   [ "$NOGIT" ] && git && return
 
-  export rvm_trust_rvmrcs_flag=1
-
   local old_path=`pwd`
-  local LIBNAME=$1
-  local LIBPATH=`echo $LIBNAME | awk -F / '{print $2}'`
-  local LIBPATH="$PWD/$LIBDIR/$LIBPATH"
+  local lib_name=$1
+  local lib_path="$PWD/$LIB_DIR_NAME/`echo $lib_name | awk -F / '{print $2}'`"
 
-  [ -d "$LIBPATH" ] && echo "$LIBNAME is already installed." && return
+  [ -d "$lib_path" ] && echo "$lib_name is already installed." && return
 
-  if [ "`curl -Is "https://github.com/$LIBNAME" | grep '200 OK'`" != '' ]; then
-    giturl="https://github.com/$LIBNAME.git"
-    git clone $giturl $LIBPATH 2>/dev/null
+  if [ "`curl -Is "https://github.com/$lib_name" | grep '200 OK'`" != '' ]; then
+    giturl="https://github.com/$lib_name.git"
+    git clone $giturl $lib_path 2>/dev/null
 
-    if [ -f "$LIBPATH/.gitmodules" ]; then
-      cd $LIBPATH
+    if [ -f "$lib_path/.gitmodules" ]; then
+      cd "$lib_path"
       git submodule update --init 2>/dev/null
-      cd $old_path
+      cd "$old_path"
     fi
 
-    if [ -f "$LIBPATH/Cundlefile" ]; then
-      install_path $LIBPATH
+    if [ -f "$lib_path/Cundlefile" ]; then
+      install_path $lib_path
     fi
   fi
 }
@@ -68,8 +65,8 @@ install_path() {
     return
   fi
 
-  old_path=`pwd`
-  cd $1
+  local old_path=`pwd`
+  cd "$1"
 
   while read line
   do
@@ -77,16 +74,16 @@ install_path() {
     install $lib
   done < $cundlefile
 
-  cd $old_path
+  cd "$old_path"
 }
 
 # Update an install cundle
 update() {
-  old_path=`pwd`
-  for lib in `ls $LIBDIR`
+  local old_path=`pwd`
+  for lib in `ls $LIB_DIR_NAME`
   do
-    if [ -d "$old_path/$LIBDIR/$lib/.git" ]; then
-      cd "$old_path/$LIBDIR/$lib"
+    if [ -d "$old_path/$LIB_DIR_NAME/$lib/.git" ]; then
+      cd "$old_path/$LIB_DIR_NAME/$lib"
 
       # Get the lib name
       lib=`git config -l | grep origin.url`
@@ -97,7 +94,7 @@ update() {
         git pull 2> /dev/null
       fi
 
-      cd $old_path
+      cd "$old_path"
     fi
   done
 }
@@ -110,8 +107,8 @@ update_path() {
     return
   fi
 
-  old_path=`pwd`
-  cd $1
+  local old_path=`pwd`
+  cd "$1"
 
   while read line
   do
@@ -119,7 +116,7 @@ update_path() {
     update $lib
   done < $cundlefile
 
-  cd $old_path
+  cd "$old_path"
 }
 
 cundle()
@@ -128,6 +125,9 @@ cundle()
     cundle help
     return
   fi
+
+  export rvm_trust_rvmrcs_flag=1
+
   case $1 in
     "help" )
       echo
@@ -135,16 +135,15 @@ cundle()
       echo
       echo "Usage:"
       echo "    cundle help                    Show this message"
-      echo "    cundle remove <lib>            Remove a <lib>"
-      echo "    cundle ls                      List installed libs"
       echo "    cundle install                 Download and install all libs defined in ./Cundlefile"
       echo "    cundle install <lib>           Download and install a <lib>"
       echo "    cundle update                  Use the latest code for libs defined in ./Cundlefile"
       echo "    cundle update <lib>            Use the latest code for <lib> from git"
+      echo "    cundle ls                      List installed libs"
+      echo "    cundle remove <lib>            Remove a <lib>"
       echo
       echo "Example:"
-      echo "    cundle install RestKit/RestKit Install latest version of RestKit"
-      echo "    cundle remove RestKit/RestKit  Remove RestKit under SharedLib"
+      echo "    cundle install enormego/EGOCache"
       echo
     ;;
     "install" )
@@ -169,19 +168,19 @@ cundle()
       [ $# -ne 2 ] && cundle help && return
 
       local old_path=`pwd`
-      for lib in `ls $LIBDIR`
+      for lib in `ls $LIB_DIR_NAME`
       do
-        if [ -d "$old_path/$LIBDIR/$lib/.git" ]; then
-          cd "$old_path/$LIBDIR/$lib"
+        if [ -d "$old_path/$LIB_DIR_NAME/$lib/.git" ]; then
+          cd "$old_path/$LIB_DIR_NAME/$lib"
 
           # Get the lib name
           liburl=`git config -l | grep origin.url`
           if [[ $liburl =~ $2 ]]; then
-            rm -rf "$old_path/$LIBDIR/$lib"
+            rm -rf "$old_path/$LIB_DIR_NAME/$lib"
             echo "Removed $2"
           fi
 
-          cd $old_path
+          cd "$old_path"
         fi
       done
     ;;
@@ -190,17 +189,17 @@ cundle()
 
       local old_path=`pwd`
 
-      [ ! -d "$old_path/$LIBDIR" ] && echo "No libs installed" && return
+      [ ! -d "$old_path/$LIB_DIR_NAME" ] && echo "No libs installed" && return
 
-      echo "Installed libs under $LIBDIR:"
-      for lib in `ls $LIBDIR`
+      echo "Installed libs under $old_path/$LIB_DIR_NAME:"
+      for lib in `ls $LIB_DIR_NAME`
       do
-        if [ -d "$old_path/$LIBDIR/$lib/.git" ]; then
-          cd "$old_path/$LIBDIR/$lib"
+        if [ -d "$old_path/$LIB_DIR_NAME/$lib/.git" ]; then
+          cd "$old_path/$LIB_DIR_NAME/$lib"
           # Get the lib name
           lib=`git config -l | grep origin.url |sed -e 's/.*github.com\/\(.*\).git/\1/g'`
           if [ $lib ]; then echo "✓ $lib"; fi
-          cd $old_path
+          cd "$old_path"
         fi
       done
     ;;
