@@ -34,6 +34,8 @@ If you have a `Cundlefile` at the project root. Use `cundle` to install all cund
 	
 	Done. All cundles installed.
 
+Use `cundle update` to update your all your cundles or `cundle update RestKit/RestKit` for just RestKit.
+
 ## Install
 
 Download and install cundle
