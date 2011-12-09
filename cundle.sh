@@ -126,8 +126,6 @@ cundle()
     return
   fi
 
-  export rvm_trust_rvmrcs_flag=1
-
   case $1 in
     "help" )
       echo
@@ -207,6 +205,4 @@ cundle()
       cundle help
     ;;
   esac
-
-  export rvm_trust_rvmrcs_flag=0
 }
