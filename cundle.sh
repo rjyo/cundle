@@ -58,7 +58,7 @@ install() {
 
 # Install libs at a given path, there must be a Cundle file at that path
 install_path() {
-  cundlefile="$1/Cundlefile"
+  local cundlefile="$1/Cundlefile"
 
   if [ ! -f $cundlefile ]; then
     cundle help
@@ -100,7 +100,7 @@ update() {
 }
 
 update_path() {
-  cundlefile="$1/Cundlefile"
+  local cundlefile="$1/Cundlefile"
 
   if [ ! -f $cundlefile ]; then
     cundle help
