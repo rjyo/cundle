@@ -195,7 +195,7 @@ cundle()
         if [ -d "$old_path/$LIB_DIR_NAME/$lib/.git" ]; then
           cd "$old_path/$LIB_DIR_NAME/$lib"
           # Get the lib name
-          lib=`git config -l | grep origin.url |sed -e 's/.*github.com\/\(.*\).git/\1/g'`
+          lib=`git config -l | grep origin.url | sed -e 's/.*github.com[\/:]\(.*\).git/\1/g'`
           if [ $lib ]; then echo "✓ $lib"; fi
           cd "$old_path"
         fi
