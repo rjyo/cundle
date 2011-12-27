@@ -22,7 +22,7 @@ if [ ! `which git` ]; then
   git() { echo 'Need git to proceed.' >&2; }
 fi
 
-local LIB_DIR_NAME='SharedLib'
+LIB_DIR_NAME='SharedLib'
 
 # Install a lib at current path
 install() {
