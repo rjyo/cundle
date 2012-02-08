@@ -35,15 +35,20 @@ install() {
   [ "$NOGIT" ] && git && return
 
   local old_path=`pwd`
-  local lib_name=$1
-  local lib_path="$PWD/$LIB_DIR_NAME/`echo $lib_name | awk -F / '{print $2}'`"
+  local lib_name=${1//.git/}
+  local lib_path="$PWD/$LIB_DIR_NAME/`echo ${lib_name##*/}`"
 
-  [ -d "$lib_path" ] && echo "$lib_name is already installed." && return
+  [ -d "$lib_path" ] && echo "$lib_path is already installed." && return
 
-  if [ "`curl -Is "https://github.com/$lib_name" | grep '200 OK'`" != '' ]; then
-    giturl="https://github.com/$lib_name.git"
-    git clone $giturl $lib_path 2>/dev/null
+  if [[ $lib_name == http:* || $lib_name == https:* || $lib_name == git@* ]]; then
+    local git_url=$lib_name
+  else
+    local git_url="https://github.com/$lib_name"
+  fi
 
+  git clone $git_url $lib_path 2>/dev/null
+
+  if [ -d "$lib_path" ]; then
     if [ -f "$lib_path/.gitmodules" ]; then
       cd "$lib_path"
       git submodule update --init 2>/dev/null
@@ -86,8 +91,8 @@ update() {
       cd "$old_path/$LIB_DIR_NAME/$lib"
 
       # Get the lib name
-      lib=`git config -l | grep origin.url`
-      if [[ $lib =~ $1 ]]; then
+      repo=`git config -l | grep origin.url | grep -o "[^/]*$"`
+      if [[ $1 == *$repo || $1 == *$repo.git ]]; then
         echo "Updating $1 ..."
         git reset --hard HEAD 2> /dev/null
         git clean -fd 2> /dev/null
@@ -195,8 +200,8 @@ cundle()
         if [ -d "$old_path/$LIB_DIR_NAME/$lib/.git" ]; then
           cd "$old_path/$LIB_DIR_NAME/$lib"
           # Get the lib name
-          lib=`git config -l | grep origin.url | sed -e 's/.*github.com[\/:]\(.*\).git/\1/g'`
-          if [ $lib ]; then echo "✓ $lib"; fi
+          repo=`git config -l | grep origin.url | grep -o "[^/]*$"`
+          if [ $repo ]; then echo "✓ $lib"; fi
           cd "$old_path"
         fi
       done

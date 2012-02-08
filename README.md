@@ -27,23 +27,28 @@ Run the following command under your project root. This will add ASIHttpRequest 
 
 	$ cundle install pokeb/asi-http-request
 
-To list all install cundles
+Full git url can also be used.
+
+	$ cundle install git@github.com:ashchan/macruby-keychain-wrapper.git
+
+To list all installed cundles
 	
 	$ cundle ls
 	Installed libs under /Users/jyo/Examples/SharedLib:
 	✓ enormego/EGOImageLoading
 	✓ pokeb/asi-http-request
 
-To remove a installed bundle. And you need to remove that dependency from you Xcode project manually.
+To remove an installed bundle. And you need to remove that dependency from you Xcode project manually.
 
 	$ cundle remove RestKit/RestKit
 
-If you have a `Cundlefile` at the project root. Use `cundle` to install all cundles defined in the `Cundlefile`.
+If you have a `Cundlefile` at the project root, use `cundle` to install all cundles defined in the `Cundlefile`.
 
 	$ cat Cundlefile
 	cundle "pokeb/asi-http-request"
 	cundle "RestKit/RestKit"
 	cundle "enormego/EGOImageLoading"
+	cundle "https://bitbucket.org/jaredhobbs/pysiri.git"
 	
 	$ cundle install
 	Cloning into '/Users/jyo/Examples/SharedLib/asi-http-request'...
@@ -64,11 +69,10 @@ To activate cundle, you need to source it from your bash shell
 
 	$ . ~/.cundle/cundle.sh
 
-Add this line to ~/.bashrc or ~/.zshrc (if you use oh-my-zsh like me) file to have it automatically sources upon login.
+Add this line to ~/.bashrc or ~/.zshrc (if you use oh-my-zsh like me) file to have it automatically source upon login.
 
 ## Limitations & Future plan
 
-* Only support repositories on github.com now. Will support any git repository.
 * Not able to use a certain commit, tag or branch. It just pulls the latest source.
 * `cundle` is still at its alpha stage, but I'll make it better as I can. [Shoot me an email](mailto:jyo.rakuraku@gmail.com) if you have any question.
 
