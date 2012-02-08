@@ -1,2 +1,4 @@
-cundle "pokeb/asi-http-request"
+cundle "https://github.com/pokeb/asi-http-request"
 cundle "enormego/EGOImageLoading"
+cundle "https://bitbucket.org/jaredhobbs/pysiri.git"
+cundle "git@github.com:ashchan/macruby-keychain-wrapper.git"
