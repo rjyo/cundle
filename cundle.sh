@@ -1,4 +1,4 @@
-#!/usr/bin/evn bash
+#!/usr/bin/env bash
 
 # Cundle - Obj-C Libary Manager
 # Implemented as a bash function
@@ -85,23 +85,23 @@ install_path() {
 # Update an install cundle
 update() {
   local old_path=`pwd`
-  for lib in `ls $LIB_DIR_NAME`
-  do
-    if [ -d "$old_path/$LIB_DIR_NAME/$lib/.git" ]; then
-      cd "$old_path/$LIB_DIR_NAME/$lib"
 
-      # Get the lib name
-      repo=`git config -l | grep origin.url | grep -o "[^/]*$"`
-      if [[ $1 == *$repo || $1 == *$repo.git ]]; then
-        echo "Updating $1 ..."
-        git reset --hard HEAD 2> /dev/null
-        git clean -fd 2> /dev/null
-        git pull 2> /dev/null
-      fi
+  if [ -d "$old_path/$LIB_DIR_NAME/$1/.git" ]; then
+    cd "$old_path/$LIB_DIR_NAME/$1"
 
-      cd "$old_path"
+    # Get the lib name
+    local repo=`git config -l | grep origin.url | grep -o "[^/]*$"`
+
+    if [[ $repo =~ $1 ]]; then
+      echo "Updating $1 ..."
+      git reset --hard HEAD 2> /dev/null
+      git clean -fd 2> /dev/null
+      git pull 2> /dev/null
     fi
-  done
+
+    cd "$old_path"
+  fi
+  # done
 }
 
 update_path() {
@@ -117,7 +117,7 @@ update_path() {
 
   while read line
   do
-    lib=`echo $line | awk '{print $2}' | tr -d "\""`
+    local lib=`echo $line | awk -F "/" '{ split($NF, name, "."); print name[1] }' | tr -d "\""`
     update $lib
   done < $cundlefile
 
